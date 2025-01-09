@@ -18,7 +18,7 @@ from firebase_admin import credentials
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-FIREBASE_CRED = credentials.Certificate("landing-d7000-firebase-adminsdk-9h8cr-6c846d8e33.json")
+FIREBASE_CRED = credentials.Certificate("keys/landing-d7000-firebase-adminsdk-9h8cr-6c846d8e33.json")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
