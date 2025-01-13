@@ -43,3 +43,47 @@ class LandingAPI(APIView):
 	        
          # Devuelve el id del objeto guardado
          return Response({"id": new_resource.key}, status=status.HTTP_201_CREATED)
+     
+class LandingAPIDetail(APIView):
+
+    name = 'Landing Detail API'
+
+    collection_name = 'emails'
+
+    def get(self, request, pk):
+        ref = db.reference(f'{self.collection_name}')
+        documento = dict(ref.get()).get(pk)
+        print(documento)
+
+        if documento:
+            return Response(documento, status=status.HTTP_200_OK)
+        return Response({'error': 'Documento no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, pk):
+        ref = db.reference(f'{self.collection_name}')
+        documento = ref.get().get(pk)
+
+        if not documento:
+            return Response({'error': 'Documento no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+        if 'email' not in request.data:
+            return Response(
+                {'error': 'La petición no incluye el campo requerido "email"'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Actualizar los campos existentes en el documento
+        documento.update(request.data)
+        ref.child(pk).set(documento)
+
+        return Response({'message': 'Documento actualizado exitosamente'}, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        ref = db.reference(f'{self.collection_name}')
+        documento = ref.get().get(pk)
+
+        if not documento:
+            return Response({'error': 'Documento no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+        ref.child(pk).delete()
+        return Response({'message': 'Documento eliminado exitosamente'}, status=status.HTTP_200_OK)
