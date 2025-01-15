@@ -138,3 +138,9 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Fallo: acceso sin autenticación
+LOGIN_URL = '/login/'
+    
+# Éxito: luego de autenticación exitosa
+LOGIN_REDIRECT_URL = '/'
